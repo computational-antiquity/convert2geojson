@@ -85,6 +85,9 @@ env/
 venv/
 ENV/
 
+# Ignore geojson files
+.geojson
+
 # Spyder project settings
 .spyderproject
 .spyproject
