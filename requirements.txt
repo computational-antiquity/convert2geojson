@@ -1,0 +1,8 @@
+nose
+pandas
+citableclass
+ipywidgets
+IPython
+xlrd
+matplotlib
+requests

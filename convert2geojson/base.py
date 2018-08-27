@@ -7,11 +7,8 @@ import io
 import ipywidgets as widgets
 import ast
 from collections import ChainMap
-import difflib
-#from ipywidgets import HBox
 from IPython.display import HTML,display, clear_output
 from matplotlib import pyplot as plt
-import networkx as nx
 from string import ascii_lowercase
 
 class Convert2GeoJson(object):
@@ -35,8 +32,8 @@ class Convert2GeoJson(object):
 
         colorList = 'Red Green Yellow Blue Orange Purple Cyan Magenta Lime Pink Teal Lavender Brown Maroon Olive Coral Navy Grey'
         self.colors = colorList.lower().split(' ')
-    )
 
+    
     def replace(self, file, pattern, subst):
         # Read contents from file as a single string
         file_handle = open(file, 'r')
