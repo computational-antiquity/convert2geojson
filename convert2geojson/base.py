@@ -1,16 +1,8 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
-import requests
 import json
 import re
-import io
 import os
-import ipywidgets as widgets
-import ast
-from collections import ChainMap
-from IPython.display import HTML,display, clear_output
-from matplotlib import pyplot as plt
-from string import ascii_lowercase
 
 class Convert2GeoJson(object):
     """

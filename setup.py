@@ -53,12 +53,8 @@ setup(
     # Dependent packages (distributions)
     install_requires=[
         "pandas",
-        "requests",
         "xlrd",
         "citableclass",
-        "ipywidgets",
-        "matplotlib",
-        "IPython",
         ],
     test_suite='nose.collector',
     tests_require=['nose'],
