@@ -1,0 +1,203 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "city": 1,
+        "clearedLocalisation": 3,
+        "dating": 4,
+        "index": 7,
+        "latitude": 47.1667,
+        "library": 1,
+        "literature": 4,
+        "localisation": 3,
+        "longitude": 9.1333,
+        "manuID": 8,
+        "text": 5
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.1333,
+          47.1667
+        ]
+      },
+      "style": {
+        "color": "#f7fbff",
+        "weight": 1,
+        "fillColor": "#f7fbff",
+        "fillOpacity": 0.5
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "city": 0,
+        "clearedLocalisation": 1,
+        "dating": 7,
+        "index": 6,
+        "latitude": 47.3833,
+        "library": 0,
+        "literature": 7,
+        "localisation": 6,
+        "longitude": 0.7,
+        "manuID": 2,
+        "text": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.7,
+          47.3833
+        ]
+      },
+      "style": {
+        "color": "#f7fbff",
+        "weight": 1,
+        "fillColor": "#f7fbff",
+        "fillOpacity": 0.5
+      }
+    }
+  ],
+  "properties": {
+    "fields": {
+      "city": {
+        "lookup": {
+          "0": "AARAU (Kt. Aargau)",
+          "1": "AACHEN",
+          "2": "ABERYSTWYTH",
+          "3": "ABBEVILLE"
+        },
+        "name": "city"
+      },
+      "clearedLocalisation": {
+        "lookup": {
+          "0": "None",
+          "1": "Tours",
+          "2": "R\u00e4tien",
+          "3": "St. Gallen",
+          "4": "Loire"
+        },
+        "name": "clearedLocalisation"
+      },
+      "dating": {
+        "lookup": {
+          "0": "None",
+          "1": "IX./X. Jh.",
+          "2": "VIII./IX. Jh.",
+          "3": "VIII./IX. Jh. (vor 814)",
+          "4": "IX. Jh., 3. Drittel",
+          "5": "Zeit Ludwigs des Frommen (sp\u00e4testens 830)",
+          "6": "IX. Jh., Ende",
+          "7": "843-851"
+        },
+        "name": "dating"
+      },
+      "index": {
+        "lookup": {
+          "0": 9,
+          "1": 8,
+          "2": 7,
+          "3": 6,
+          "4": 5,
+          "5": 4,
+          "6": 3,
+          "7": 2,
+          "8": 1,
+          "9": 0
+        },
+        "name": "index"
+      },
+      "latitude": {
+        "lookup": {
+          "0": "None",
+          "1": 47.1667,
+          "2": 47.3833
+        },
+        "name": "latitude"
+      },
+      "library": {
+        "lookup": {
+          "0": "Staatsarchiv",
+          "1": "\u00d6ffentliche Bibliothek",
+          "2": "Biblioth\u00e8que Municipale",
+          "3": "National Library oe Wales (Llyfrgell Genedlaethol Cymru)",
+          "4": "Domschatzkammer",
+          "5": "Sammlung Peter Ludwig, s.",
+          "6": "Stadtarchiv"
+        },
+        "name": "library"
+      },
+      "literature": {
+        "lookup": {
+          "0": "None",
+          "1": "Lit. Koehler 3, S. 53 (\u201esp\u00e4testens 814 o. sogar 810\u201c), 72-80, Taf. 28-36; Aussi. Karl d. Gr., Nr. 421; Ma. Studien 3, S. 179; Nordenfalk, Kanontafeln, S. 195ff,\u00a0274f., Taf. 162, 163.",
+          "2": "Lit. Bruckner 7, Taf. 8c (\u201es. XI\u201c).",
+          "3": "Lit. CLA 5 1672.",
+          "4": "Lit. Merton2, S. 49; Landsberger, Abb. 9c, 10a; Ausst. Suevia Sacra, Nr. 156, Abb. 145; Aachener Kunstbl\u00e4tter 45 (1974), S. 350f. m. Abb.",
+          "5": "Lit. McKitterick, Script. 30 (1976), S. 225-231.",
+          "6": "Lit. Bruckner 7, S. 138 (\u201evielleicht franz.\u201c).",
+          "7": "Lit. Bruckner 7, S. 138 (\u201eFrankreich, sp\u00e4tes IX. Jh.\u201c); B. Fischer, in Grandval-Bibel, S. 64.",
+          "8": "Lit. CLA VI.704; Koehler 2, S. 49-55, m. Taf. 33-41; Aussi. Karl d. Gr., Nr. 414; Ma. Studien 3, S. 177; McGurk, Latin Gospel Books, S. 49f."
+        },
+        "name": "literature"
+      },
+      "localisation": {
+        "lookup": {
+          "0": "None",
+          "1": "Karolingisches Hofatelier",
+          "2": "Loire",
+          "3": "St. Gallen",
+          "4": "S\u00fcdwestdeutschland",
+          "5": "R\u00e4tien",
+          "6": "Tours",
+          "7": "Oberitalien (?)"
+        },
+        "name": "localisation"
+      },
+      "longitude": {
+        "lookup": {
+          "0": "None",
+          "1": 9.1333,
+          "2": 0.7
+        },
+        "name": "longitude"
+      },
+      "manuID": {
+        "lookup": {
+          "0": "ndef",
+          "1": "4",
+          "2": "3",
+          "3": "7",
+          "4": "9",
+          "5": "8",
+          "6": "1",
+          "7": "6",
+          "8": "2",
+          "9": "5"
+        },
+        "name": "manuID"
+      },
+      "text": {
+        "lookup": {
+          "0": "No. 3739 (Einbd.) (Zurzach). Biblia (Il Par).\n1 Bl.; (43) \u03c7 (30) cm ((37,5) \u03c7 26,5 cm); 2 Sp., 50 Z. erhalten. Die Ma\u00dfe lassen an Tours denken. 1962 nicht aufzufinden.\nLit.: Bruckner 7, S. 138 (\u201eFrankreich, sp\u00e4tes IX. Jh.\u201c); B. Fischer, in Grandval-Bibel, S. 64.\n- \u00a0\u00a0\u00a0Tours, 843-851-\n",
+          "1": "8 Ms. 4 (1) (Saint-Riquier, Geschenk Angilberts?, gest. 814; im Katalog von 831).\u00a0IV Evangel ia purpurea.\n198 Bl.; 35,5x24,7 cm (27,5x18 cm); 2 Sp. zu 32 Z.; 1-188 Purpurpg. Text in Gold-unz.; Kzg.: \u00b7?, \u00eb. 189v-198r Capit, ev. in Goldmin. Schmuck: Kanontafeln (10r-16v); 4 Evangelistenbilder; seitengro\u00dfe Init. auf Zierseiten.\nLit.: CLA VI.704; Koehler 2, S. 49-55, m. Taf. 33-41; Aussi. Karl d. Gr., Nr. 414; Ma. Studien 3, S. 177; McGurk, Latin Gospel Books, S. 49f.\n- Karolingisches Hofatelier, VIII./IX. Jh. (vor 814)-\n",
+          "2": "Fragmentsammlung. Sacramentarium Gregorianum (Nov.).\n2 \u00a0\u00a0\u00a0Querstr. von Dopp.; (21,8) \u03c7 19 cm (16,7 x 13 cm); 18 Z. Min. mit kurzen Obi.\u00a0Formelanf\u00e4nge s. XII hinzugefugt.\nLit.: Bruckner 7, Taf. 8c (\u201es. XI\u201c).\n- \u00a0\u00a0\u00a0S\u00fcdwestdeutschland, IX./X. Jh.-\n",
+          "3": "No. 3788 (Einbd.) (Zurzach). Homiliae (Beda, Horn. 1,14).\n1 Bl. (\u201eCXXXI\u201c); 36 x ca. 30 cm (25,3x19,2 cm); 2 Sp. zu 26 Z. Min. fast ohne Kzg. Lit.: Bruckner 7, S. 138 (\u201evielleicht franz.\u201c).\n- \u00a0\u00a0\u00a0Oberitalien (?), IX./X. Jh.-\n",
+          "4": "IV Evangelia.\n280 BI.; 30,5 \u03c7 24 cm (18,5 \u03c7 11,7 cm); 20, 23, 24 Z. Schlichte Min., verwandt mit BRESCIA, Bibi. Civica Queriniana, Ms. E.II.9; Lig.: rcc. Schmale nat\u00fcrliche Rust.\u00a0Mon.cap. Schmuck: Kanontafeln (8v-14r); die vier Evangelisten (14v); Zierrahmen\u00a0(19v).\nLit.: Koehler 3, S. 53 (\u201esp\u00e4testens 814 o. sogar 810\u201c), 72-80, Taf. 28-36; Aussi. Karl d. Gr., Nr. 421; Ma. Studien 3, S. 179; Nordenfalk, Kanontafeln, S. 195ff,\u00a0274f., Taf. 162, 163.\n- \u00a0\u00a0\u00a0Karolingisches Hofatelier, Zeit Ludwigs des Frommen (sp\u00e4testens 830)-\n",
+          "5": "Cod. Wings 1. IV Evangelia.\nI + 333 + I Bl. (Ordnung z.T. verwirrt); 23,5x16,8 cm (14,3x9,7 cm); 17 Z. 2r-319r: St. Galler Kalligr. mehrerer Hde. 7r-12r Kanontafeln. Init. z.T. mit Gold- u. Silber-f\u00fcllung; 14v Purpurband. 319v-333r Capit, ev. (s. X2).\nLit.: Merton2, S. 49; Landsberger, Abb. 9c, 10a; Ausst. Suevia Sacra, Nr. 156, Abb. 145; Aachener Kunstbl\u00e4tter 45 (1974), S. 350f. m. Abb.\n-\u00a0\u00a0\u00a0St. Gallen, IX. Jh., 3. Drittel-\n",
+          "6": "9 Ms. 21553 (Phillipps 16308). Donatus, Ars grammatica (mai. II).\n24 Bl.; 25,2x19,2 cm <14,5x10 cm); 17 Z.\nLit.: McKitterick, Script. 30 (1976), S. 225-231.\n- Loire, IX. Jh., Ende-\n",
+          "7": "No. 3949, Fasz. no. 41 (Zurzach). Epistulae Pauli (Col 3,24\n- I Th 1,8).\n1 \u00a0\u00a0\u00a0Hochstr.; 32,5 \u03c7 (7,3) cm (25 \u03c7 (7,3) cm); 2 Sp. zu 28 Z. R\u00e4tische Min., wohl\u00a0gleiche Hd. wie M\u00dcNSTER (Kt. Graub\u00fcnden), Stiftsarchiv, Ms. XX 48, No. 9\u00a0(s. INNSBRUCK, Tiroler Landesmuseum Ferdinandeum, FB 32.139). Init. Seit 1977\u00a0vermi\u00dft.\nLit.: CLA 5 1672.\n- \u00a0\u00a0\u00a0R\u00e4tien, VIII./IX. Jh.-\n",
+          "8": " LOS ANGELES (California), J. Paul Getty Museum\n",
+          "9": "Anniversar der Pfarrkirche von 1360 (Fragm. u. Abdr. am Vd.). Theologischer Text.\u00a04-5 Z. breiter Rest eines Dopp. u. ca. 25 Z. breiter, l\u00fcckenhafter Abdruck; (26) \u03c7 ca.\u00a024,5 cm \n"
+        },
+        "name": "text"
+      }
+    },
+    "attribution": {},
+    "description": {}
+  },
+  "attribution": "Implemented: <a target=\"_blank\" href=\"http://www.topoi.org\">Topoi</a> and <a target=\"_blank\" href=\"https://www.mpiwg-berlin.mpg.de\">MPIWG</a>",
+  "description": "Displaying GeoJson Data from Pandas Dataframe"
+}
