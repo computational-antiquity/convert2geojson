@@ -10,4 +10,4 @@ GeoJSON standard and can lead to problems with linters.
 
 ## Example Application
 
-Have a look at the [notebook](/example/Loading dataset.ipynb) in the `/example` folder
+Have a look at the [notebook](/example/Loading_dataset.ipynb) in the `/example` folder
