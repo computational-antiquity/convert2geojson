@@ -86,7 +86,8 @@ venv/
 ENV/
 
 # Ignore geojson files
-.geojson
+*.geojson
+testing
 
 # Spyder project settings
 .spyderproject
