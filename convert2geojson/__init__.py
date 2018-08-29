@@ -1,1 +1,1 @@
-from .base import Convert2GeoJson as buildGeoJson
+from .base import Convert2GeoJson

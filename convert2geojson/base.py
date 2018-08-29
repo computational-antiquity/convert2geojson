@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
+# base packages
 import pandas as pd
 import json
 import re
 import os
+
+# visualization packages
+import ipyleaflet
+from ipywidgets import HTML
+
 
 class Convert2GeoJson(object):
     """
@@ -14,10 +20,12 @@ class Convert2GeoJson(object):
     lon : the name of the column in the dataframe that contains longitude data
     """
     def __init__(
-        self,dataframe,properties,
-        lat='latitude',lon='longitude'
-        ):
+            self, dataframe, properties,
+            lat='latitude', lon='longitude'
+            ):
         self.df = dataframe
+        self.rawDF = dataframe
+        self.geojsonDict = {}
         self.properties = properties
         self.lat = lat
         self.lon = lon
@@ -25,8 +33,9 @@ class Convert2GeoJson(object):
         colorList = 'Red Green Yellow Blue Orange Purple Cyan Magenta Lime Pink Teal Lavender Brown Maroon Olive Coral Navy Grey'
         self.colors = colorList.lower().split(' ')
 
+        self.df = self.df.dropna(subset=[self.lat, self.lon], axis=0, inplace=False)
 
-    def replace(self, file, pattern, subst):
+    def _replace(self, file, pattern, subst):
         # Read contents from file as a single string
         file_handle = open(file, 'r')
         file_string = file_handle.read()
@@ -41,18 +50,21 @@ class Convert2GeoJson(object):
         file_handle.write(file_string)
         file_handle.close()
 
-    def getLookupDict(self,column):
-        retDict = {x:y for x,y in enumerate(self.df[column].value_counts().to_dict().keys())}
+    def _getLookupDict(self, column):
+        retDict = {x: y for x, y in enumerate(self.df[column].value_counts().to_dict().keys())}
         return retDict
 
-    def getTranslateDict(self,column):
-        retDict = {y:x for x,y in enumerate(self.df[column].value_counts().to_dict().keys())}
+    def _getTranslateDict(self, column):
+        retDict = {y: x for x, y in enumerate(self.df[column].value_counts().to_dict().keys())}
         return retDict
 
-    def df2geojson(self, visible_name = False,
-        attribution= 'Implemented: <a target="_blank" href="http://www.topoi.org">Topoi</a> and <a target="_blank" href="https://www.mpiwg-berlin.mpg.de">MPIWG</a>',
-        description='Displaying GeoJson Data from Pandas Dataframe',
-        debug=False):
+    def convert(
+            self,
+            visible_name=False,
+            attribution='Implemented: <a target="_blank" href="http://www.topoi.org">Topoi</a> and <a target="_blank" href="https://www.mpiwg-berlin.mpg.de">MPIWG</a>',
+            description='Displaying GeoJson Data from Pandas Dataframe',
+            debug=False
+            ):
 
         lookUps = {}
         keyTranslate = {}
@@ -60,13 +72,13 @@ class Convert2GeoJson(object):
         dfTemp = pd.DataFrame()
 
         if not visible_name:
-            visible_name = {x:' '.join(x.split('_')) for x in self.properties}
+            visible_name = {x: ' '.join(x.split('_')) for x in self.properties}
 
         # translate repeating values to dict
         for key in self.properties:
             if key != 'ObjID' and len(self.df[key].value_counts()) < 21:
-                keyTranslate = self.getTranslateDict(key)
-                lookUps[key] = self.getLookupDict(key)
+                keyTranslate = self._getTranslateDict(key)
+                lookUps[key] = self._getLookupDict(key)
                 dfTemp[key] = self.df[key].apply(lambda row: keyTranslate[row])
             else:
                 dfTemp[key] = self.df[key]
@@ -79,9 +91,9 @@ class Convert2GeoJson(object):
         # construct field values
         for cl in self.properties:
             if cl in lookUps.keys():
-                retDict[cl] = {'lookup':lookUps[cl],'name':visible_name[cl]}
+                retDict[cl] = {'lookup': lookUps[cl], 'name': visible_name[cl]}
             else:
-                retDict[cl] = {'name':visible_name[cl]}
+                retDict[cl] = {'name': visible_name[cl]}
         if debug:
             print(retDict)
 
@@ -89,21 +101,20 @@ class Convert2GeoJson(object):
         dfTemp[self.lat] = self.df[self.lat]
 
         # create a new python dict to contain our geojson data, using geojson format
-        geojson = {'type':'FeatureCollection', 'features':[],'properties': {'fields': {}, 'attribution': {}, 'description': {}}}
+        geojson = {'type': 'FeatureCollection', 'features': [], 'properties': {'fields': {}, 'attribution': attribution, 'description': description}}
 
         # loop through each row in the dataframe and convert each row to geojson format
         for _, row in dfTemp.iterrows():
             # create a feature template to fill in
             if row[self.lon] != 'None' and row[self.lat] != 'None':
-                feature = {'type':'Feature',
-                           'properties':{},
-                           'geometry':{'type':'Point',
-                                       'coordinates':[]},
-                           'style':{'color':'#f7fbff', 'weight': 1, 'fillColor':'#f7fbff', 'fillOpacity':0.5}
+                feature = {'type': 'Feature',
+                           'properties': {'style': {}},
+                           'geometry': {'type': 'Point', 'coordinates': []},
+
                            }
 
                 # fill in the coordinates
-                feature['geometry']['coordinates'] = [row[self.lon],row[self.lat]]
+                feature['geometry']['coordinates'] = [row[self.lon], row[self.lat]]
 
                 # for each column, get the value and add it as a new feature property
                 for prop in self.properties:
@@ -116,20 +127,67 @@ class Convert2GeoJson(object):
                 geojson['properties']['fields'] = retDict
 
         # add attribution and description
-        geojson['attribution'] = attribution
-        geojson['description'] = description
+        # geojson['attribution'] = attribution
+        # geojson['description'] = description
 
-        return geojson
+        self.geojsonDict = geojson
 
-    #def generateGeoDF(self):
-    #    # TODO
-    #    return self.df
+        return self
 
-    def generateJSON(self,name='data.geojson',path='.'):
-        geojson_dict = self.df2geojson()
-        geojson_str = json.dumps(geojson_dict, indent=2)
+    def geojson(self):
+        return self.geojsonDict
 
-        with open(os.path.join(path,name),'w') as output_file:
+    def save(self, name='data.geojson', path='.'):
+        # geojson_dict = self.df2geojson()
+        geojson_str = json.dumps(self.geojsonDict, indent=2)
+
+        with open(os.path.join(path, name), 'w') as output_file:
             output_file.write(geojson_str)
 
-        return os.path.join(path,name)
+        return os.path.join(path, name)
+
+    def display(self, style=False):
+        cartoLight = {
+            'url': 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+            'max_zoom': 16,
+            'attribution': 'Carto Light',
+            'name': 'Carto.Light'
+            }
+        latList = [x for x in self.df[self.lat].values if type(x) not in [str, list, dict]]
+        latMean = sum(latList)/len(latList)
+        lonList = [x for x in self.df[self.lon].values if type(x) not in [str, list, dict]]
+        lonMean = sum(lonList)/len(lonList)
+        center = [latMean, lonMean]
+        zoom = 5
+        self.displayMap = ipyleaflet.Map(
+            center=center,
+            zoom=zoom,
+            layers=(ipyleaflet.basemap_to_tiles(cartoLight), )
+            )
+        if not style:
+            self.geojsonLayer = ipyleaflet.GeoJSON(data=self.geojsonDict)
+            self.displayMap.add_control(ipyleaflet.LayersControl())
+            self.displayMap.add_layer(self.geojsonLayer)
+            return self.displayMap
+        elif style == 'grouped':
+            tableTemplate = """<table style="width:100%"><caption>Values at point:</caption><tr><th>key</th><th>value</th></tr>ROWS</table>"""
+            rowTemplate = """<tr><td>KEY</td><td>VALUE</td></tr>"""
+            markers = []
+            for _, row in self.df.iterrows():
+                markerTemp = ipyleaflet.Marker(location=[row[self.lat], row[self.lon]], draggable=False)
+                # popup information
+                message = HTML()
+                rowList = []
+                for x, y in row.iteritems():
+                    rowList.append(re.sub('VALUE', str(y), re.sub('KEY', str(x), rowTemplate)))
+                message.value = re.sub('ROWS', ''.join(rowList), tableTemplate)
+                message.placeholder = ''
+                message.description = ''
+                markerTemp.popup = message
+                # style of marker
+                markerTemp.style = {'icon': 'warning'}
+                markers.append(markerTemp)
+            self.markerCluster = ipyleaflet.MarkerCluster(markers=markers)
+            self.displayMap.add_control(ipyleaflet.LayersControl())
+            self.displayMap.add_layer(self.markerCluster)
+            return self.displayMap

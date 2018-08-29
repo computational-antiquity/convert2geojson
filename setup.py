@@ -55,6 +55,8 @@ setup(
         "pandas",
         "xlrd",
         "citableclass",
+        'ipyleaflet',
+        'ipywidgets'
         ],
     test_suite='nose.collector',
     tests_require=['nose'],
