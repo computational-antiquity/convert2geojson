@@ -170,7 +170,30 @@ class Convert2GeoJson(object):
             self.displayMap.add_layer(self.geojsonLayer)
             return self.displayMap
         elif style == 'grouped':
-            tableTemplate = """<table style="width:100%"><caption>Values at point:</caption><tr><th>key</th><th>value</th></tr>ROWS</table>"""
+            popupTemplate = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+            <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            </style>
+            </head>
+            <body>
+            <table style="width:100%">
+                  <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                  </tr>
+                  ROWS
+                </table>
+
+            </body>
+            </html>
+            """
+            # tableTemplate = """<table style="width:100%"><tr><th>key</th><th>value</th></tr>ROWS</table>"""
             rowTemplate = """<tr><td>KEY</td><td>VALUE</td></tr>"""
             markers = []
             for _, row in self.df.iterrows():
@@ -180,12 +203,12 @@ class Convert2GeoJson(object):
                 rowList = []
                 for x, y in row.iteritems():
                     rowList.append(re.sub('VALUE', str(y), re.sub('KEY', str(x), rowTemplate)))
-                message.value = re.sub('ROWS', ''.join(rowList), tableTemplate)
+                message.value = re.sub('ROWS', ''.join(rowList), popupTemplate)
                 message.placeholder = ''
                 message.description = ''
                 markerTemp.popup = message
                 # style of marker
-                markerTemp.style = {'icon': 'warning'}
+                markerTemp.layout = {'padding': '1px'}
                 markers.append(markerTemp)
             self.markerCluster = ipyleaflet.MarkerCluster(markers=markers)
             self.displayMap.add_control(ipyleaflet.LayersControl())
