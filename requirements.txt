@@ -4,3 +4,5 @@ citableclass
 xlrd
 ipyleaflet
 ipywidgets
+jinja2
+ipython

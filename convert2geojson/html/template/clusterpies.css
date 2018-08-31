@@ -1,0 +1,152 @@
+#map {
+  position: relative;
+  width:960px;
+  height:500px;
+}
+#legend {
+  position: absolute;
+  top: 3px;
+  left: 700px;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 1000;
+  font-size: 1em;
+  font-family: sans-serif;
+  width: 265px;
+  background: rgba(255,255,255,0.6);
+}
+.legendheading {
+  position: relative;
+  height: 25px;
+  padding: 5px 2px 0px 2px;
+  font-size: larger;
+  font-weight: bold;
+}
+.legenditem {
+  padding: 2px;
+  margin-bottom: 2px;
+}
+
+/*Marker clusters*/
+.marker-cluster-pie g.arc{
+  fill-opacity: 0.5;
+}
+.marker-cluster-pie-label {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/*Markers*/
+.marker {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-radius:10px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-style: solid;
+  fill: #CCC;
+  stroke: #FFF;
+  background: #CCC;
+  border-color: #FFF;
+}
+.marker div{
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/*marker categories begin*/
+.category-1{
+  fill: yellow;
+  stroke: yellow;
+  background: yellow;
+  border-color: yellow;
+}
+.category-5{
+  fill: navy;
+  stroke: navy;
+  background: navy;
+  border-color: navy;
+}
+.category-8{
+  fill: blue;
+  stroke: blue;
+  background: blue;
+  border-color: blue;
+}
+.category-3{
+  fill: grey;
+  stroke: grey;
+  background: grey;
+  border-color: grey;
+}
+.category-9{
+  fill: coral;
+  stroke: coral;
+  background: coral;
+  border-color: coral;
+}
+.category-10{
+  fill: olive;
+  stroke: olive;
+  background: olive;
+  border-color: olive;
+}
+.category-6{
+  fill: maroon;
+  stroke: maroon;
+  background: maroon;
+  border-color: maroon;
+}
+.category-2{
+  fill: brown;
+  stroke: brown;
+  background: brown;
+  border-color: brown;
+}
+.category-7{
+  fill: red;
+  stroke: red;
+  background: red;
+  border-color: red;
+}
+.category-4{
+  fill: lavender;
+  stroke: lavender;
+  background: lavender;
+  border-color: lavender;
+}
+.category-0{
+  fill: teal;
+  stroke: teal;
+  background: teal;
+  border-color: teal;
+}
+
+/*marker categories end*/
+
+/*marker icons*/
+/*
+.icon-1{
+  background-image: url('running-16.png');
+  background-repeat: no-repeat;
+  background-position: 0px 1px;
+}
+*/
+
+/*Popup*/
+.map-popup span.heading {
+  display: block;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.map-popup span.attribute {
+  display: block;
+}
+.map-popup span.label {
+  font-weight: bold;
+}

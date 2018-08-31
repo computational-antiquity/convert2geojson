@@ -4,18 +4,22 @@ import pandas as pd
 import json
 import re
 import os
+import shutil
 
 # visualization packages
 import ipyleaflet
 from ipywidgets import HTML
+from jinja2 import Environment, FileSystemLoader
+from IPython.display import HTML
 
 
 class Convert2GeoJson(object):
     """
-    Turn a dataframe containing point data into a geojson formatted python dictionary
+    Turn a dataframe containing point data into a geojson formated python dictionary
 
-    df : the dataframe to convert to geojson
+    dataframe : the dataframe to convert to geojson
     properties : a list of columns in the dataframe to turn into geojson feature properties
+        (will be shown as popup information)
     lat : the name of the column in the dataframe that contains latitude data
     lon : the name of the column in the dataframe that contains longitude data
     """
@@ -33,7 +37,8 @@ class Convert2GeoJson(object):
         colorList = 'Red Green Yellow Blue Orange Purple Cyan Magenta Lime Pink Teal Lavender Brown Maroon Olive Coral Navy Grey'
         self.colors = colorList.lower().split(' ')
 
-        self.df = self.df.dropna(subset=[self.lat, self.lon], axis=0, inplace=False)
+        self.df = self.df.dropna(subset=[self.lat, self.lon], axis=0, inplace=False).fillna('None')
+        self.current_dir = os.path.dirname(os.path.realpath(__file__))
 
     def _replace(self, file, pattern, subst):
         # Read contents from file as a single string
@@ -108,9 +113,8 @@ class Convert2GeoJson(object):
             # create a feature template to fill in
             if row[self.lon] != 'None' and row[self.lat] != 'None':
                 feature = {'type': 'Feature',
-                           'properties': {'style': {}},
+                           'properties': {},
                            'geometry': {'type': 'Point', 'coordinates': []},
-
                            }
 
                 # fill in the coordinates
@@ -125,10 +129,6 @@ class Convert2GeoJson(object):
 
                 # add lookup properties
                 geojson['properties']['fields'] = retDict
-
-        # add attribution and description
-        # geojson['attribution'] = attribution
-        # geojson['description'] = description
 
         self.geojsonDict = geojson
 
@@ -146,23 +146,104 @@ class Convert2GeoJson(object):
 
         return os.path.join(path, name)
 
-    def display(self, style=False):
-        cartoLight = {
-            'url': 'http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
-            'max_zoom': 16,
-            'attribution': 'Carto Light',
-            'name': 'Carto.Light'
-            }
+    def _generateMarkers(self):
+        popupTemplate = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <style>
+        table, th, td {
+            border: 1px solid black;
+            border-radius: 25px;
+        }
+        </style>
+        </head>
+        <body>
+        <table style="width:100%">
+              <tr>
+                <th>Key</th>
+                <th>Value</th>
+              </tr>
+              ROWS
+            </table>
+
+        </body>
+        </html>
+        """
+        # tableTemplate = """<table style="width:100%"><tr><th>key</th><th>value</th></tr>ROWS</table>"""
+        rowTemplate = """<tr><td>KEY</td><td>VALUE</td></tr>"""
+        markers = []
+        for _, row in self.df.iterrows():
+            markerTemp = ipyleaflet.Marker(location=[row[self.lat], row[self.lon]], draggable=False)
+            # popup information
+            message = HTML()
+            rowList = []
+            for x, y in row.iteritems():
+                rowList.append(re.sub('VALUE', str(y), re.sub('KEY', str(x), rowTemplate)))
+            message.value = re.sub('ROWS', ''.join(rowList), popupTemplate)
+            message.placeholder = ''
+            message.description = ''
+            markerTemp.popup = message
+            # style of marker
+            markerTemp.layout = {'padding': '1px'}
+            markers.append(markerTemp)
+        return markers
+
+    def _renderHTML(self, groupCategory, path, pageTitle='GeoJson Map', inputPath='html/template'):
+        environment = Environment(loader=FileSystemLoader([os.path.join(self.current_dir, inputPath)]), trim_blocks=True, lstrip_blocks=True)
+        template = environment.get_template(path)
+        return template.render(
+            geojsonPath='data.geojson',
+            title=pageTitle,
+            pieCategory=groupCategory,
+            popupProperties=list(self.properties),
+            basemapURL=self.basemap['url'],
+            centerLat=self.center[0],
+            centerLon=self.center[1],
+            zoom=self.zoom
+            )
+
+    def _writeHTML(self, groupCategory, pageTitle, outputTemplate='index.html', outputPath='html/static'):
+        outputFullPath = os.path.join(os.path.abspath('.'), outputPath)
+        template_name, _ = os.path.splitext(os.path.join(outputFullPath, '{0}.html'.format(outputTemplate)))
+
+        if not os.path.exists(outputFullPath):
+            os.makedirs(outputFullPath)
+
+        geoJsonFile = self.save(name='data.geojson', path=outputPath)
+
+        cssFiles = shutil.copy(
+            os.path.join(self.current_dir, 'html/template/clusterpies.css'),
+            './html/static/')
+
+        with open(os.path.join(outputFullPath, outputTemplate), 'w') as f:
+            f.write(self._renderHTML(
+                path=outputTemplate,
+                groupCategory=groupCategory,
+                pageTitle=pageTitle
+                )
+            )
+
+    def display(self, style=False, groupBy=False, basemap=False):
+        if basemap:
+            self.basemap = basemap
+        else:
+            self.basemap = {
+                'url': 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
+                'max_zoom': 16,
+                'attribution': 'Carto Light',
+                'name': 'Carto.Light'
+                }
         latList = [x for x in self.df[self.lat].values if type(x) not in [str, list, dict]]
         latMean = sum(latList)/len(latList)
         lonList = [x for x in self.df[self.lon].values if type(x) not in [str, list, dict]]
         lonMean = sum(lonList)/len(lonList)
-        center = [latMean, lonMean]
-        zoom = 5
+        self.center = [latMean, lonMean]
+        self.zoom = 5
         self.displayMap = ipyleaflet.Map(
-            center=center,
-            zoom=zoom,
-            layers=(ipyleaflet.basemap_to_tiles(cartoLight), )
+            center=self.center,
+            zoom=self.zoom,
+            layers=(ipyleaflet.basemap_to_tiles(self.basemap), )
             )
         if not style:
             self.geojsonLayer = ipyleaflet.GeoJSON(data=self.geojsonDict)
@@ -170,47 +251,13 @@ class Convert2GeoJson(object):
             self.displayMap.add_layer(self.geojsonLayer)
             return self.displayMap
         elif style == 'grouped':
-            popupTemplate = """
-            <!DOCTYPE html>
-            <html>
-            <head>
-            <style>
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-            }
-            </style>
-            </head>
-            <body>
-            <table style="width:100%">
-                  <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                  </tr>
-                  ROWS
-                </table>
-
-            </body>
-            </html>
-            """
-            # tableTemplate = """<table style="width:100%"><tr><th>key</th><th>value</th></tr>ROWS</table>"""
-            rowTemplate = """<tr><td>KEY</td><td>VALUE</td></tr>"""
-            markers = []
-            for _, row in self.df.iterrows():
-                markerTemp = ipyleaflet.Marker(location=[row[self.lat], row[self.lon]], draggable=False)
-                # popup information
-                message = HTML()
-                rowList = []
-                for x, y in row.iteritems():
-                    rowList.append(re.sub('VALUE', str(y), re.sub('KEY', str(x), rowTemplate)))
-                message.value = re.sub('ROWS', ''.join(rowList), popupTemplate)
-                message.placeholder = ''
-                message.description = ''
-                markerTemp.popup = message
-                # style of marker
-                markerTemp.layout = {'padding': '1px'}
-                markers.append(markerTemp)
+            markers = self._generateMarkers()
             self.markerCluster = ipyleaflet.MarkerCluster(markers=markers)
             self.displayMap.add_control(ipyleaflet.LayersControl())
             self.displayMap.add_layer(self.markerCluster)
             return self.displayMap
+        elif style == 'pie':
+            if not groupBy:
+                raise KeyError('Please add groupBy=COLNAME. You need to specify the column containing the categories for the pie chart.')
+            html = self._writeHTML(groupCategory=groupBy, pageTitle='GeoJson map')
+            return  HTML("<iframe allowfullscreen=”true” mozallowfullscreen=”true” webkitallowfullscreen=”true” height=550px; width=100% src='./html/static/index.html'> <iframe>")

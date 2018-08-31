@@ -24,6 +24,10 @@ setup(
     # Include additional files into the package
     include_package_data=True,
 
+    package_data={
+        'convert2geojson': ['html/template/*','html/template/css/*']
+    },
+
     url='https://github.com/computational-antiquity/convert2geojson/',
 
     # Details
@@ -56,7 +60,9 @@ setup(
         "xlrd",
         "citableclass",
         'ipyleaflet',
-        'ipywidgets'
+        'ipywidgets',
+        'jinja2',
+        'ipython',
         ],
     test_suite='nose.collector',
     tests_require=['nose'],
