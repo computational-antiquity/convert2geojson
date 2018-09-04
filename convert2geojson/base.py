@@ -10,8 +10,7 @@ import shutil
 import ipyleaflet
 from ipywidgets import HTML
 from jinja2 import Environment, FileSystemLoader
-from IPython.display import HTML
-
+from IPython.display import HTML as displayHTML
 
 class Convert2GeoJson(object):
     """
@@ -39,21 +38,6 @@ class Convert2GeoJson(object):
 
         self.df = self.df.dropna(subset=[self.lat, self.lon], axis=0, inplace=False).fillna('None')
         self.current_dir = os.path.dirname(os.path.realpath(__file__))
-
-    def _replace(self, file, pattern, subst):
-        # Read contents from file as a single string
-        file_handle = open(file, 'r')
-        file_string = file_handle.read()
-        file_handle.close()
-
-        # Use re package to allow for replacement (also allowing for (multiline) REGEX)
-        file_string = (re.sub(pattern, subst, file_string))
-
-        # Write contents to file.
-        # Using mode 'w' truncates the file.
-        file_handle = open(file, 'w')
-        file_handle.write(file_string)
-        file_handle.close()
 
     def _getLookupDict(self, column):
         retDict = {x: y for x, y in enumerate(self.df[column].value_counts().to_dict().keys())}
@@ -111,7 +95,8 @@ class Convert2GeoJson(object):
         # loop through each row in the dataframe and convert each row to geojson format
         for _, row in dfTemp.iterrows():
             # create a feature template to fill in
-            if row[self.lon] != 'None' and row[self.lat] != 'None':
+            if type(row[self.lon]) == float and type(row[self.lat]) == float:
+            #if row[self.lon] not in ['None',None] and row[self.lat] not in ['None',None]:
                 feature = {'type': 'Feature',
                            'properties': {},
                            'geometry': {'type': 'Point', 'coordinates': []},
@@ -179,8 +164,10 @@ class Convert2GeoJson(object):
             message = HTML()
             rowList = []
             for x, y in row.iteritems():
-                rowList.append(re.sub('VALUE', str(y), re.sub('KEY', str(x), rowTemplate)))
-            message.value = re.sub('ROWS', ''.join(rowList), popupTemplate)
+                str_x = re.escape(str(x))
+                str_y = re.escape(str(y))
+                rowList.append(re.sub('VALUE', str_y , re.sub('KEY', str_x, rowTemplate)))
+            message.value = re.sub('ROWS', re.escape(''.join(rowList)), popupTemplate)
             message.placeholder = ''
             message.description = ''
             markerTemp.popup = message
@@ -193,7 +180,7 @@ class Convert2GeoJson(object):
         environment = Environment(loader=FileSystemLoader([os.path.join(self.current_dir, inputPath)]), trim_blocks=True, lstrip_blocks=True)
         template = environment.get_template(path)
         return template.render(
-            geojsonPath='data.geojson',
+            geojsonPath='./data.geojson',
             title=pageTitle,
             pieCategory=groupCategory,
             popupProperties=list(self.properties),
@@ -260,4 +247,5 @@ class Convert2GeoJson(object):
             if not groupBy:
                 raise KeyError('Please add groupBy=COLNAME. You need to specify the column containing the categories for the pie chart.')
             html = self._writeHTML(groupCategory=groupBy, pageTitle='GeoJson map')
-            return  HTML("<iframe allowfullscreen=”true” mozallowfullscreen=”true” webkitallowfullscreen=”true” height=550px; width=100% src='./html/static/index.html'> <iframe>")
+            print('Your map has been generated at\n\t"/html/static/index.html".\nDue to CORS issues, most browsers will not load the GeoJSON in an Iframe correctly.\nPlease view the map offline.')
+            return displayHTML("<iframe allowfullscreen=”true” mozallowfullscreen=”true” webkitallowfullscreen=”true” height=550px; width=100% src='./html/static/index.html'> <iframe>")
