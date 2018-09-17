@@ -1,19 +1,20 @@
+#html, #body { height: 100%; width: 100%; margin: 0; }
+
 #map {
-  position: relative;
-  width:960px;
-  height:500px;
+  width:95vw;
+  height:95vh;
 }
 #legend {
   position: absolute;
-  top: 3px;
-  left: 700px;
+  top: 8vh;
+  right: 5vw;
   margin: 10px;
   padding: 5px;
   border-radius: 5px;
   z-index: 1000;
   font-size: 1em;
+  width: 15vw;
   font-family: sans-serif;
-  width: 265px;
   background: rgba(255,255,255,0.6);
 }
 .legendheading {
@@ -60,73 +61,7 @@
 }
 
 /*marker categories begin*/
-.category-1{
-  fill: yellow;
-  stroke: yellow;
-  background: yellow;
-  border-color: yellow;
-}
-.category-5{
-  fill: navy;
-  stroke: navy;
-  background: navy;
-  border-color: navy;
-}
-.category-8{
-  fill: blue;
-  stroke: blue;
-  background: blue;
-  border-color: blue;
-}
-.category-3{
-  fill: grey;
-  stroke: grey;
-  background: grey;
-  border-color: grey;
-}
-.category-9{
-  fill: coral;
-  stroke: coral;
-  background: coral;
-  border-color: coral;
-}
-.category-10{
-  fill: olive;
-  stroke: olive;
-  background: olive;
-  border-color: olive;
-}
-.category-6{
-  fill: maroon;
-  stroke: maroon;
-  background: maroon;
-  border-color: maroon;
-}
-.category-2{
-  fill: brown;
-  stroke: brown;
-  background: brown;
-  border-color: brown;
-}
-.category-7{
-  fill: red;
-  stroke: red;
-  background: red;
-  border-color: red;
-}
-.category-4{
-  fill: lavender;
-  stroke: lavender;
-  background: lavender;
-  border-color: lavender;
-}
-.category-0{
-  fill: teal;
-  stroke: teal;
-  background: teal;
-  border-color: teal;
-}
-
+REPLACE_FOR_MARKER_CSS
 /*marker categories end*/
 
 /*marker icons*/

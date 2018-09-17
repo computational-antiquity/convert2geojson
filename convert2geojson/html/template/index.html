@@ -115,7 +115,7 @@ function defineClusterIcon(cluster) {
                             valueFunc: function(d){return d.values.length;},
                             strokeWidth: 1,
                             outerRadius: r,
-                            innerRadius: r-20,
+                            innerRadius: r-10,
                             pieClass: 'cluster-pie',
                             pieLabel: n,
                             pieLabelClass: 'marker-cluster-pie-label',
@@ -205,10 +205,12 @@ function renderLegend() {
     legenditems
         .enter()
         .append('div')
-
+        .attr('style',"width: 15vw; float:left; height: 1em;")
+        .text(function(d){return d.value;})
+        .append('div')
+        .attr('style',"width: 2vw; float:right; height: 1em;")
         .attr('class',function(d){return 'category-'+d.key;})
-        .classed({'legenditem': true})
-        .text(function(d){return d.value;});
+        .classed('legenditem', true);
 }
 
 /*Helper function*/
