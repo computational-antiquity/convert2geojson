@@ -99,8 +99,8 @@ By choosing `style='grouped'` ipyleaflets MarkerCluster is used to show groups o
 
 Additionally, since markers are now single entities, by clicking on any marker a popup shows the information of the dataframe belonging to the geographical point.
 
-### Screenshot
-![Screenshot of generated map](examples/pieChartMap.png "Screenshot of generated map")
+##### Screenshot
+![Screenshot of generated pie charts map](example/pieChartMap.png "Screenshot of generated map")
 
 
 ## Examples
