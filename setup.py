@@ -12,7 +12,7 @@ setup(
     name="convert2geojson",
 
     # Version number (initial):
-    version="0.0.1",
+    version="0.0.2",
 
     # Application author details:
     author="Malte Vogl",
@@ -49,7 +49,7 @@ setup(
     project_urls={
         'Home': 'https://github.com/computational-antiquity/convert2geojson/',
         'Tracker': 'https://github.com/computational-antiquity/convert2geojson/issues',
-        'Download': 'https://github.com/computational-antiquity/convert2geojson/archive/0.0.1.tar.gz',
+        'Download': 'https://github.com/computational-antiquity/convert2geojson/archive/0.0.2.tar.gz',
     },
 
     python_requires='>=3',
