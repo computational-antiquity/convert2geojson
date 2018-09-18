@@ -19,7 +19,12 @@ GeoJSON standard and can lead to problems with linters, e.g. [GeoJSONLint](http:
 
 ## Installation
 
-The package can be installed from GitHub by running
+The package can be installed by
+```
+pip install convert2geojson
+``` 
+
+The latest development version of the package can be installed from GitHub by running
 ```
   pip install git+https://github.com/computational-antiquity/convert2geojson.git
 ```
