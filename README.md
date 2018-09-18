@@ -79,6 +79,7 @@ For a first overview use
 data.display()
 ```
 This plots the geoJSON features as a layer on a basemap.
+
 The basic plotting can be changed by parameters for the map layout (`mapLayout=dict()`), and the basemap data (`basemap=dict()`).
 
 To use a custom basemap, you can provide a dictionary of the format
@@ -90,19 +91,28 @@ customBasemap = {
           'name': 'Name for layer control'
           }
 ```
+##### Screenshot
+![Screenshot of generated map](example/mapExample.png "Screenshot of generated map")
 
 #### Grouped Plotting
 
-For densely distributed geographical data, to styleing options are available.
+For densely distributed geographical data, to styling options are available.
 
 By choosing `style='grouped'` ipyleaflets MarkerCluster is used to show groups of markers depending on the zoom level. By clicking on a cluster, the map zooms to the level, which contains the selected markers in the cluster .
 
 Additionally, since markers are now single entities, by clicking on any marker a popup shows the information of the dataframe belonging to the geographical point.
 
 ##### Screenshot
-![Screenshot of generated pie charts map](example/pieChartMap.png "Screenshot of generated map")
+![Screenshot of generated cluster map](example/clusterMap.png "Screenshot of generated cluster map")
+
+#### Categorical plotting as pie chart distribution
+
+By choosing `style='pie'` and providing a category found in the dataframe columns, by setting `groupBy='Category'`, the package generates a standalone map showing the clustered markers as pie charts separated into sub-groups by the chosen category.
+
+##### Screenshot
+![Screenshot of generated pie charts map](example/pieChartMap.png "Screenshot of generated pie chart map")
 
 
 ## Examples
 
-Have a look at the [notebook](/example/Loading_dataset.ipynb) in the `/example` folder
+Have a look at the [Loading datasets](/example/Loading_dataset.ipynb) or the [Advanced Plotting](/example/Advanced_plotting.ipynb) notebooks in the `/example` folder

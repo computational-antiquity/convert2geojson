@@ -269,7 +269,7 @@ class Convert2GeoJson(object):
             self.basemap = {
                 'url': 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
                 'max_zoom': 16,
-                'attribution': 'Carto Light NoLabels: https://carto.com',
+                'attribution': '<a href="https://carto.com">Carto Light NoLabels</a>',
                 'name': 'Carto Light'
                 }
         latList = [x for x in self.df[self.lat].values if type(x) not in [str, list, dict]]
@@ -286,9 +286,9 @@ class Convert2GeoJson(object):
         if mapLayout:
             self.displayMap.layout = mapLayout
         if not style:
-            self.geojsonLayer = ipyleaflet.GeoJSON(data=self.geojsonDict)
-            self.displayMap.add_control(ipyleaflet.LayersControl())
-            self.displayMap.add_layer(self.geojsonLayer)
+            markers = self._generateMarkers()
+            for marker in markers:
+                self.displayMap.add_layer(marker)
             return self.displayMap
         elif style == 'grouped':
             markers = self._generateMarkers()
