@@ -12,6 +12,9 @@ GeoJSON standard and can lead to problems with linters, e.g. [GeoJSONLint](http:
 
 1. [Installation](#installation)
 2. [Basics](#basic-usage)
+  - [Loading data](#loading-data)
+  - [Generating geojson](#generating-geojson)
+  - [Plotting](#plotting)
 3. [Examples](#examples)
 
 ## Installation
@@ -95,6 +98,9 @@ For densely distributed geographical data, to styleing options are available.
 By choosing `style='grouped'` ipyleaflets MarkerCluster is used to show groups of markers depending on the zoom level. By clicking on a cluster, the map zooms to the level, which contains the selected markers in the cluster .
 
 Additionally, since markers are now single entities, by clicking on any marker a popup shows the information of the dataframe belonging to the geographical point.
+
+### Screenshot
+![Screenshot of generated map](examples/pieChartMap.png "Screenshot of generated map")
 
 
 ## Examples

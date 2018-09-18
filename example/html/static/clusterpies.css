@@ -1,0 +1,105 @@
+#html, #body { height: 100%; width: 100%; margin: 0; }
+
+#map {
+  width:95vw;
+  height:95vh;
+}
+#legend {
+  position: absolute;
+  top: 8vh;
+  right: 5vw;
+  margin: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 1000;
+  font-size: 1em;
+  width: 15vw;
+  font-family: sans-serif;
+  background: rgba(255,255,255,0.6);
+}
+.legendheading {
+  position: relative;
+  height: 25px;
+  padding: 5px 2px 0px 2px;
+  font-size: larger;
+  font-weight: bold;
+}
+.legenditem {
+  padding: 2px;
+  margin-bottom: 2px;
+}
+
+/*Marker clusters*/
+.marker-cluster-pie g.arc{
+  fill-opacity: 0.5;
+}
+.marker-cluster-pie-label {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/*Markers*/
+.marker {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-radius:10px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-style: solid;
+  fill: #CCC;
+  stroke: #FFF;
+  background: #CCC;
+  border-color: #FFF;
+}
+.marker div{
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/*marker categories begin*/
+.category-0{
+  fill: grey;
+  stroke: grey;
+  background: grey;
+  border-color: grey;
+}
+.category-1{
+  fill: navy;
+  stroke: navy;
+  background: navy;
+  border-color: navy;
+}
+.category-2{
+  fill: coral;
+  stroke: coral;
+  background: coral;
+  border-color: coral;
+}
+
+/*marker categories end*/
+
+/*marker icons*/
+/*
+.icon-1{
+  background-image: url('running-16.png');
+  background-repeat: no-repeat;
+  background-position: 0px 1px;
+}
+*/
+
+/*Popup*/
+.map-popup span.heading {
+  display: block;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.map-popup span.attribute {
+  display: block;
+}
+.map-popup span.label {
+  font-weight: bold;
+}

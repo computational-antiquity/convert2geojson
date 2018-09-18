@@ -178,11 +178,12 @@ class Convert2GeoJson(object):
                 message = HTML()
                 rowList = []
                 for x, y in row.iteritems():
-                    str_x = re.escape(str(x))
-                    str_y = re.escape(str(y))
-                    rowTemp = re.sub('VALUE', str_y, re.sub('KEY', str_x, rowTemplate))
-                    rowTemp = re.sub(r'\\(.)', r'\1', rowTemp)
-                    rowList.append(rowTemp)
+                    if x in self.properties:
+                        str_x = re.escape(str(x))
+                        str_y = re.escape(str(y))
+                        rowTemp = re.sub('VALUE', str_y, re.sub('KEY', str_x, rowTemplate))
+                        rowTemp = re.sub(r'\\(.)', r'\1', rowTemp)
+                        rowList.append(rowTemp)
                 message.value = re.sub(r'\\(.)', r'\1', re.sub('ROWS', ''.join(rowList), popupTemplate))
                 message.placeholder = ''
                 message.description = ''
