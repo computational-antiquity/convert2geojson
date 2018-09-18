@@ -172,21 +172,24 @@ class Convert2GeoJson(object):
         rowTemplate = """<tr><td>KEY</td><td>VALUE</td></tr>"""
         markers = []
         for _, row in self.df.iterrows():
-            markerTemp = ipyleaflet.Marker(location=[row[self.lat], row[self.lon]], draggable=False)
-            # popup information
-            message = HTML()
-            rowList = []
-            for x, y in row.iteritems():
-                str_x = re.escape(str(x))
-                str_y = re.escape(str(y))
-                rowList.append(re.sub('VALUE', str_y, re.sub('KEY', str_x, rowTemplate)))
-            message.value = re.sub(r'\\(.)', r'\1', re.sub('ROWS', ''.join(rowList), popupTemplate))
-            message.placeholder = ''
-            message.description = ''
-            markerTemp.popup = message
-            # style of marker
-            markerTemp.layout = {'padding': '1px'}
-            markers.append(markerTemp)
+            if type(row[self.lon]) == float and type(row[self.lat]) == float:
+                markerTemp = ipyleaflet.Marker(location=[row[self.lat], row[self.lon]], draggable=False)
+                # popup information
+                message = HTML()
+                rowList = []
+                for x, y in row.iteritems():
+                    str_x = re.escape(str(x))
+                    str_y = re.escape(str(y))
+                    rowTemp = re.sub('VALUE', str_y, re.sub('KEY', str_x, rowTemplate))
+                    rowTemp = re.sub(r'\\(.)', r'\1', rowTemp)
+                    rowList.append(rowTemp)
+                message.value = re.sub(r'\\(.)', r'\1', re.sub('ROWS', ''.join(rowList), popupTemplate))
+                message.placeholder = ''
+                message.description = ''
+                markerTemp.popup = message
+                # style of marker
+                markerTemp.layout = {'padding': '1px'}
+                markers.append(markerTemp)
         return markers
 
     def _renderHTML(self, groupCategory, path, pageTitle='GeoJson Map', inputPath='html/template'):
@@ -249,15 +252,24 @@ class Convert2GeoJson(object):
         markerDestination = re.findall(regPat, open(cssFiles).read())[0]
         self._replace(cssFiles, markerDestination, markerString)
 
-    def display(self, style=False, groupBy=False, colorDict=False, basemap=False, mapLayout=False, pageTitle='GeoJSON map', outputPath='html/static'):
+    def display(
+            self,
+            basemap=False,
+            mapLayout=False,
+            style=False,
+            groupBy=False,
+            colorDict=False,
+            pageTitle='GeoJSON map',
+            outputPath='html/static'
+            ):
         if basemap:
             self.basemap = basemap
         else:
             self.basemap = {
                 'url': 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png',
                 'max_zoom': 16,
-                'attribution': 'Carto Light',
-                'name': 'Carto Light NoLabels: https://carto.com'
+                'attribution': 'Carto Light NoLabels: https://carto.com',
+                'name': 'Carto Light'
                 }
         latList = [x for x in self.df[self.lat].values if type(x) not in [str, list, dict]]
         latMean = sum(latList)/len(latList)
