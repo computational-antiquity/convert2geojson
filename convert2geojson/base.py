@@ -5,7 +5,7 @@ import json
 import re
 import os
 import shutil
-import number
+import numbers
 
 # visualization packages
 import ipyleaflet
