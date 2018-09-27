@@ -5,6 +5,7 @@ import json
 import re
 import os
 import shutil
+import number
 
 # visualization packages
 import ipyleaflet
@@ -15,7 +16,7 @@ from IPython.display import HTML as displayHTML
 
 class Convert2GeoJson(object):
     """
-    Turn a dataframe containing point data into a geojson formated python dictionary
+    Routines for the conversion (.convert()) and displaying (.display()) of a dataframe containing point data into a geojson formated python dictionary.
 
     dataframe : the dataframe to convert to geojson
     properties : a list of columns in the dataframe to turn into geojson feature properties
@@ -70,6 +71,9 @@ class Convert2GeoJson(object):
             description='Displaying GeoJson Data from Pandas Dataframe',
             debug=False
             ):
+        """
+        Do the actual conversion. Parameters include attribution and description, which are encoded in the GeoJSON.
+        """
 
         lookUps = {}
         keyTranslate = {}
@@ -111,7 +115,7 @@ class Convert2GeoJson(object):
         # loop through each row in the dataframe and convert each row to geojson format
         for _, row in dfTemp.iterrows():
             # create a feature template to fill in
-            if type(row[self.lon]) == float and type(row[self.lat]) == float:
+            if isinstance(row[self.lon], numbers.Number) and isinstance(row[self.lat], numbers.Number):
                 # if row[self.lon] not in ['None',None] and row[self.lat] not in ['None',None]:
                 feature = {'type': 'Feature',
                            'properties': {},
@@ -172,7 +176,7 @@ class Convert2GeoJson(object):
         rowTemplate = """<tr><td>KEY</td><td>VALUE</td></tr>"""
         markers = []
         for _, row in self.df.iterrows():
-            if type(row[self.lon]) == float and type(row[self.lat]) == float:
+            if isinstance(row[self.lon], numbers.Number) and isinstance(row[self.lat], numbers.Number):
                 markerTemp = ipyleaflet.Marker(location=[row[self.lat], row[self.lon]], draggable=False)
                 # popup information
                 message = HTML()
@@ -263,6 +267,9 @@ class Convert2GeoJson(object):
             pageTitle='GeoJSON map',
             outputPath='html/static'
             ):
+        """
+        Display the dataframe on a map. Markers can be plotted at once, grouped (style='grouped'), or as pie charts (style='pie') grouped by a chosen category (groupBy='COLUMN').
+        """
         if basemap:
             self.basemap = basemap
         else:
