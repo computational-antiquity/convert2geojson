@@ -7,7 +7,7 @@ import pandas as pd
 from IPython.display import clear_output
 
 
-class DisplayGUI(Convert2GeoJson):
+class SelectGUI(Convert2GeoJson):
     """
     GUI for selective plotting of Geo-Data on maps.
     """
@@ -70,7 +70,7 @@ class DisplayGUI(Convert2GeoJson):
             clear_output()
             display(self.tempMap.display(style='grouped'))
 
-    def displayGUI(self):
+    def display(self):
         """Display GUI for convert2GeoJSON"""
         columnSelection = widgets.HBox([self.selectColumn])
         valueSelection = widgets.HBox([self.selectValue, self.displayMap])
